@@ -2,13 +2,13 @@
 set(NAME LoanServer)
 
 set(SOURCES
-  ApplicationException.cs
-  Json.cs
-  LoanApplication.cs
-  LoanHandler.cs
-  LoanRepository.cs
-  LoanServer.cs
-  Ticket.cs
+  LoanServer/ApplicationException.cs
+  LoanServer/Json.cs
+  LoanServer/LoanApplication.cs
+  LoanServer/LoanHandler.cs
+  LoanServer/LoanRepository.cs
+  LoanServer/LoanServer.cs
+  LoanServer/Ticket.cs
   )
 
 set(source_list "")
