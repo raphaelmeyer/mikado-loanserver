@@ -1,0 +1,17 @@
+sudo: false
+dist: trusty
+
+matrix:
+  include:
+    - language: csharp
+      mono: latest
+      script: cd csharp && ./mono-build.sh
+
+    - language: java
+      script: cd java && ./gradlew build
+
+    - language: cpp
+      compiler: clang
+      script: cd cpp/build.sh
+
+
