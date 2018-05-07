@@ -1,5 +1,7 @@
 # Mikado Method Example Code
 
+[![Build Status](https://travis-ci.org/raphaelmeyer/mikado-loanserver.svg?branch=master)](https://travis-ci.org/raphaelmeyer/mikado-loanserver)
+
 A code snippet to exercise [The Mikado Method](https://www.manning.com/books/the-mikado-method).
 
 The Mikado Method is described in the [book](https://www.manning.com/books/the-mikado-method)
