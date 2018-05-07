@@ -12,6 +12,6 @@ matrix:
 
     - language: cpp
       compiler: clang
-      script: cd cpp/build.sh
+      script: cd cpp && ./build.sh
 
 
