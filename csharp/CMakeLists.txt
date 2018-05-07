@@ -1,5 +1,7 @@
+cmake_minimum_required(VERSION 3.10)
+project(LoanServerCSharp LANGUAGES NONE)
 
-set(NAME LoanServer)
+set(NAME LoanServer.exe)
 
 set(SOURCES
   LoanServer/ApplicationException.cs
@@ -24,7 +26,7 @@ set(PKGS
   )
 
 add_custom_target(${NAME} ALL
-  COMMAND mcs -out:${NAME}.exe ${PKGS} ${source_list}
+  COMMAND mcs -out:${NAME} ${PKGS} ${source_list}
   DEPENDS ${SOURCES}
   )
 

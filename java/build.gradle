@@ -1,0 +1,13 @@
+apply plugin: 'application'
+
+mainClassName = 'org.mikadomethod.loanserver.LoanServer'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.2.2'
+    compile 'org.eclipse.jetty.aggregate:jetty-all:8.1.7.v20120910'
+}
+
