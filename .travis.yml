@@ -13,5 +13,8 @@ matrix:
     - language: cpp
       compiler: clang
       script: cd cpp && ./build.sh
-
+      addons:
+        apt:
+          packages:
+            - ninja-build
 
