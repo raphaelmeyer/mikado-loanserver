@@ -1,11 +1,15 @@
 add_library(loan_application_server
+  source/LoanApplication.cc
   source/LoanHandler.cc
+  source/LoanRepository.cc
   source/Server.cc
+  source/Ticket.cc
 )
 add_library(mikado::loan_application_server ALIAS loan_application_server)
 target_link_libraries(loan_application_server
   PRIVATE
     cesanta::mongoose
+    nlohmann::json
     mikado::settings
 )
 target_include_directories(loan_application_server

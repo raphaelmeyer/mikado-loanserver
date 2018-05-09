@@ -1,8 +1,10 @@
+#include <map>
 #include <string>
 
 namespace mikado {
 
   struct Request {
+    std::map<std::string, std::string> parameters;
   };
 
   struct Response {
