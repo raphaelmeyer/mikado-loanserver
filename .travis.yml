@@ -15,6 +15,7 @@ matrix:
       script: cd cpp && ./build.sh
       addons:
         apt:
+          update: true
           packages:
             - ninja-build
 
