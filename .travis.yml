@@ -16,6 +16,7 @@ matrix:
         apt:
           update: true
           sources:
+            - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-6.0
           packages:
             - ninja-build
