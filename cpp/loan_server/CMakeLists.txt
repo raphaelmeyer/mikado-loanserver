@@ -27,7 +27,7 @@ target_link_libraries(loan_server
 
 add_library(settings INTERFACE)
 add_library(mikado::settings ALIAS settings)
-target_compile_features(settings INTERFACE cxx_std_17)
+target_compile_features(settings INTERFACE cxx_std_14)
 
 add_subdirectory(tests)
 
