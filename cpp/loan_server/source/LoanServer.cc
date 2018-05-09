@@ -3,6 +3,7 @@
 
 int main() {
   mikado::LoanHandler handler;
-  mikado::Server server(handler);
+  mikado::Server server(handler, 8080);
+  server.start();
 }
 

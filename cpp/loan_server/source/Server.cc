@@ -21,23 +21,25 @@ namespace
 
 namespace mikado
 {
-  Server::Server(IHandler const & handler)
+  Server::Server(IHandler const & handler, std::uint16_t port)
     : _handler(handler)
+    , _port(port)
   {
   }
 
   void Server::start() {
-    mg_mgr mgr;
-    mg_connection *c;
+    mg_mgr manager;
+    mg_mgr_init(&manager, NULL);
 
-    mg_mgr_init(&mgr, NULL);
-    c = mg_bind(&mgr, "8080", ev_handler);
-    mg_set_protocol_http_websocket(c);
+    auto const port = std::to_string(_port);
+    auto connection = mg_bind(&manager, port.c_str(), ev_handler);
+
+    mg_set_protocol_http_websocket(connection);
 
     for (;;) {
-      mg_mgr_poll(&mgr, 1000);
+      mg_mgr_poll(&manager, 1000);
     }
-    mg_mgr_free(&mgr);
+    mg_mgr_free(&manager);
   }
 
 }
