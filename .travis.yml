@@ -11,11 +11,13 @@ matrix:
       script: cd java && ./gradlew build
 
     - language: cpp
-      compiler: clang
       script: cd cpp && ./build.sh
       addons:
         apt:
           update: true
+          sources:
+            - llvm-toolchain-trusty-6.0
           packages:
             - ninja-build
+            - clang-6.0
 
