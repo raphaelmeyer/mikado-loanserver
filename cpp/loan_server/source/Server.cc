@@ -19,7 +19,7 @@ namespace
 
 }
 
-namespace mikado
+namespace http
 {
   Server::Server(IHandler const & handler, std::uint16_t port)
     : _handler(handler)

@@ -1,6 +1,6 @@
 #include <cstdint>
 
-namespace mikado
+namespace http
 {
   class IHandler;
 

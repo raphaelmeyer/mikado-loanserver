@@ -1,7 +1,7 @@
 #include <map>
 #include <string>
 
-namespace mikado {
+namespace http {
 
   struct Request {
     std::map<std::string, std::string> parameters;
