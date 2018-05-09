@@ -1,5 +1,6 @@
 #include <loan_server/LoanRepository.h>
 
+#include <loan_server/LoanApplication.h>
 #include <loan_server/Ticket.h>
 
 namespace mikado
