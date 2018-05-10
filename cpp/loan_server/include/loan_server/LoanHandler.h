@@ -3,6 +3,9 @@
 namespace mikado
 {
   class LoanHandler : public http::IHandler {
-    virtual http::Response handle(http::Request request) const;
+    public:
+      virtual http::Response handle(http::Request request) const;
+
+      static long get_next_id();
   };
 }

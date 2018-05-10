@@ -1,4 +1,5 @@
 #include <loan_server/LoanApplication.h>
+#include <loan_server/LoanHandler.h>
 
 namespace mikado
 {
@@ -16,6 +17,12 @@ namespace mikado
     application.amount = json.at("amount").get<long>();
     application.contact = json.at("contact").get<std::string>();
     application.approved = json.at("approved").get<bool>();
+  }
+
+  LoanApplication new_application() {
+    LoanApplication application;
+    application.application_no = LoanHandler::get_next_id();
+    return application;
   }
 }
 

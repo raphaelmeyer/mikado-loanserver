@@ -15,5 +15,7 @@ namespace mikado
 
   void to_json(Json & json, LoanApplication const & application);
   void from_json(Json const & json, LoanApplication & application);
+
+  LoanApplication new_application();
 }
 

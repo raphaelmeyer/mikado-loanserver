@@ -4,6 +4,8 @@
 #include <loan_server/LoanRepository.h>
 #include <loan_server/Ticket.h>
 
+#include <fstream>
+
 namespace
 {
   std::string const APPLICATION = "apply";
@@ -17,6 +19,10 @@ namespace
 
   long amount_from(http::Request const & request) {
     return stol(request.parameters.at("amount"));
+  }
+
+  std::string approve_loan(std::string parameter) {
+    return Json{mikado::LoanRepository::approve(parameter)};
   }
 
   bool is_approval(http::Request const & request) {
@@ -43,6 +49,10 @@ namespace
   bool is_application(http::Request const & request) {
     return APPROVE == request.parameters.at("action");
   }
+
+  std::string fetch_loan_info(std::string ticket_id) {
+    return Json{mikado::LoanRepository::fetch(ticket_id)};
+  }
 }
 
 namespace mikado
@@ -53,16 +63,33 @@ namespace mikado
     response.status_code = 200;
 
     if(is_application(request)) {
-      LoanApplication application;
+      LoanApplication application = new_application();
       application.amount = amount_from(request);
       application.contact = contact_from(request);
       auto const ticket = LoanRepository::store(application);
       response.response = Json{ticket};
     } else if(is_status_request(request) && id_specified(request)) {
+      response.response = fetch_loan_info(request.parameters.at(TICKET_ID));
     } else if(is_approval(request) && id_specified(request)) {
+      response.response = approve_loan(request.parameters.at(TICKET_ID));
     } else {
     }
 
     return {};
+  }
+
+  long LoanHandler::get_next_id() {
+    std::ifstream read_id(LoanRepository::REPOSITORY_ROOT + "/last.id", std::ios::binary);
+    long last_id = 0;
+    read_id >> last_id;
+    read_id.close();
+
+    long next_id = ++last_id;
+
+    std::ofstream write_id(LoanRepository::REPOSITORY_ROOT + "/last.id", std::ios::binary);
+    write_id << next_id;
+    write_id.close();
+
+    return next_id;
   }
 }
