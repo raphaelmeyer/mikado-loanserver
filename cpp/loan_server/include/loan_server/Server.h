@@ -6,11 +6,11 @@ namespace http
 
   class Server {
     public:
-      Server(IHandler const & handler, std::uint16_t port);
+      Server(IHandler & handler, std::uint16_t port);
       void start();
 
     private:
-      IHandler const & _handler;
+      IHandler & _handler;
       std::uint16_t _port;
   };
 }

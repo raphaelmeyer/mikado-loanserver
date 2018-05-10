@@ -4,6 +4,7 @@
 namespace http {
 
   struct Request {
+    std::string uri;
     std::map<std::string, std::string> parameters;
   };
 
@@ -14,6 +15,7 @@ namespace http {
   };
 
   class IHandler {
-    virtual Response handle(Request request) const = 0;
+    public:
+      virtual Response handle(Request request) const = 0;
   };
 }

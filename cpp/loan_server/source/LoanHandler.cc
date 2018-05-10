@@ -6,6 +6,8 @@
 
 #include <fstream>
 
+#include <iostream>
+
 namespace
 {
   std::string const APPLICATION = "apply";
@@ -26,7 +28,11 @@ namespace
   }
 
   bool is_approval(http::Request const & request) {
-    return APPLICATION == request.parameters.at("action");
+    try {
+      return APPLICATION == request.parameters.at("action");
+    } catch(std::out_of_range const &) {
+      return false;
+    }
   }
 
   long valid_id(http::Request const & request) {
@@ -43,11 +49,19 @@ namespace
   }
 
   bool is_status_request(http::Request const & request) {
-    return FETCH == request.parameters.at("action");
+    try {
+      return FETCH == request.parameters.at("action");
+    } catch(std::out_of_range const &) {
+      return false;
+    }
   }
 
   bool is_application(http::Request const & request) {
-    return APPROVE == request.parameters.at("action");
+    try {
+      return APPROVE == request.parameters.at("action");
+    } catch(std::out_of_range const &) {
+      return false;
+    }
   }
 
   std::string fetch_loan_info(std::string ticket_id) {
@@ -59,8 +73,12 @@ namespace mikado
 {
   http::Response LoanHandler::handle(http::Request request) const {
     http::Response response{};
-    response.content_type = "application/json;charset=utf-8";
+    response.content_type = "Content-Type: application/json;charset=utf-8";
     response.status_code = 200;
+
+    std::cout << "uri = " << request.uri << "\n";
+    if(request.uri != "/") { return response; }
+
 
     if(is_application(request)) {
       LoanApplication application{LoanApplication::new_application()};
@@ -73,6 +91,9 @@ namespace mikado
     } else if(is_approval(request) && id_specified(request)) {
       response.response = approve_loan(request.parameters.at(TICKET_ID));
     } else {
+      Json error = {{"error", "Incorrect parameters provided"}};
+      response.response = error.dump();
+      response.status_code = 400;
     }
 
     return response;

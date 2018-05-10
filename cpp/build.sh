@@ -8,7 +8,7 @@ export CXX=clang++
 
 mkdir -p ${build_dir}
 cd ${build_dir}
-cmake -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=Debug -G Ninja ..
 
 cd ${script_dir}
 cmake --build ${build_dir}
