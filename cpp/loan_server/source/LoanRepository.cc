@@ -25,7 +25,7 @@ namespace mikado
   }
 
   LoanApplication LoanRepository::fetch(long ticket_id) {
-    std::ifstream file(file_from_application(ticket_id));
+    std::ifstream file{file_from_application(ticket_id)};
     Json json;
     file >> json;
     LoanApplication application = json;
@@ -33,7 +33,7 @@ namespace mikado
   }
 
   Ticket LoanRepository::store(LoanApplication const & application) {
-    std::ofstream file(file_from_application(application.application_no));
+    std::ofstream file{file_from_application(application.application_no)};
     file << Json{application};
     return Ticket{application.application_no};
   }

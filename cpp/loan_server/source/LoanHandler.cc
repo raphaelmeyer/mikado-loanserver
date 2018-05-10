@@ -63,7 +63,7 @@ namespace mikado
     response.status_code = 200;
 
     if(is_application(request)) {
-      LoanApplication application = new_application();
+      LoanApplication application{LoanApplication::new_application()};
       application.amount = amount_from(request);
       application.contact = contact_from(request);
       auto const ticket = LoanRepository::store(application);
@@ -75,7 +75,7 @@ namespace mikado
     } else {
     }
 
-    return {};
+    return response;
   }
 
   long LoanHandler::get_next_id() {
