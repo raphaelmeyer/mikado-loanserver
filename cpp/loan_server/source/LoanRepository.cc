@@ -33,8 +33,7 @@ namespace mikado
   }
 
   Ticket LoanRepository::store(LoanApplication const & application) {
-    auto fname = file_from_application(application.application_no);
-    auto file = std::ofstream(fname);
+    std::ofstream file(file_from_application(application.application_no));
     file << Json{application};
     return Ticket{application.application_no};
   }
