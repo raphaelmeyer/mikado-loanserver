@@ -25,8 +25,7 @@ namespace mikado
   }
 
   LoanApplication LoanRepository::fetch(long ticket_id) {
-    auto fname = file_from_application(ticket_id);
-    auto file = std::ifstream(fname);
+    std::ifstream file(file_from_application(ticket_id));
     Json json;
     file >> json;
     LoanApplication application = json;
