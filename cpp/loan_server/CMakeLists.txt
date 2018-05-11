@@ -1,3 +1,5 @@
+find_package(Threads REQUIRED)
+
 add_library(loan_application_server
   source/LoanApplication.cc
   source/LoanHandler.cc
@@ -11,6 +13,7 @@ target_link_libraries(loan_application_server
     cesanta::mongoose
     nlohmann::json
     mikado::settings
+    Threads::Threads
 )
 target_include_directories(loan_application_server
   PUBLIC include

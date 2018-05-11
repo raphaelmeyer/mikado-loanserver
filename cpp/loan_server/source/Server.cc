@@ -59,23 +59,35 @@ namespace http
   Server::Server(IHandler & handler, std::uint16_t port)
     : _handler(handler)
     , _port(port)
+    , _running(false)
+    , _server_thread()
   {
   }
 
   void Server::start() {
-    mg_mgr manager{};
-    mg_mgr_init(&manager, nullptr);
+    _running = true;
+    _server_thread = std::thread{
+      [this]{
+        mg_mgr manager{};
+        mg_mgr_init(&manager, nullptr);
 
-    auto const port = std::to_string(_port);
-    auto connection = mg_bind(&manager, port.c_str(), ev_handler);
-    connection->user_data = static_cast<void *>(&_handler);
+        auto const port = std::to_string(_port);
+        auto connection = mg_bind(&manager, port.c_str(), ev_handler);
+        connection->user_data = static_cast<void *>(&_handler);
 
-    mg_set_protocol_http_websocket(connection);
+        mg_set_protocol_http_websocket(connection);
 
-    for (;;) {
-      mg_mgr_poll(&manager, 1000);
-    }
-    mg_mgr_free(&manager);
+        while(_running) {
+          mg_mgr_poll(&manager, 1000);
+        }
+        mg_mgr_free(&manager);
+      }
+    };
+  }
+
+  void Server::stop() {
+    _running = false;
+    _server_thread.join();
   }
 
 }
