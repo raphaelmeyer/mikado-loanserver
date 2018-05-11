@@ -53,7 +53,6 @@ namespace http
 
         return;
       }
-      mg_http_send_error(connection, 400, nullptr);
     }
   }
 
@@ -74,7 +73,7 @@ namespace http
     mg_set_protocol_http_websocket(connection);
 
     for (;;) {
-      mg_mgr_poll(&manager, 100);
+      mg_mgr_poll(&manager, 1000);
     }
     mg_mgr_free(&manager);
   }

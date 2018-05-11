@@ -6,8 +6,6 @@
 
 #include <fstream>
 
-#include <iostream>
-
 namespace
 {
   std::string const APPLICATION = "apply";
@@ -24,12 +22,13 @@ namespace
   }
 
   std::string approve_loan(std::string parameter) {
-    return Json{mikado::LoanRepository::approve(parameter)};
+    auto const json =Json{mikado::LoanRepository::approve(parameter)};
+    return json.dump();
   }
 
   bool is_approval(http::Request const & request) {
     try {
-      return APPLICATION == request.parameters.at("action");
+      return APPROVE == request.parameters.at("action");
     } catch(std::out_of_range const &) {
       return false;
     }
@@ -58,14 +57,15 @@ namespace
 
   bool is_application(http::Request const & request) {
     try {
-      return APPROVE == request.parameters.at("action");
+      return APPLICATION == request.parameters.at("action");
     } catch(std::out_of_range const &) {
       return false;
     }
   }
 
   std::string fetch_loan_info(std::string ticket_id) {
-    return Json{mikado::LoanRepository::fetch(ticket_id)};
+    auto const json = Json{mikado::LoanRepository::fetch(ticket_id)};
+    return json.dump();
   }
 }
 
@@ -76,24 +76,26 @@ namespace mikado
     response.content_type = "Content-Type: application/json;charset=utf-8";
     response.status_code = 200;
 
-    std::cout << "uri = " << request.uri << "\n";
-    if(request.uri != "/") { return response; }
-
-
-    if(is_application(request)) {
-      LoanApplication application{LoanApplication::new_application()};
-      application.amount = amount_from(request);
-      application.contact = contact_from(request);
-      auto const ticket = LoanRepository::store(application);
-      response.response = Json{ticket};
-    } else if(is_status_request(request) && id_specified(request)) {
-      response.response = fetch_loan_info(request.parameters.at(TICKET_ID));
-    } else if(is_approval(request) && id_specified(request)) {
-      response.response = approve_loan(request.parameters.at(TICKET_ID));
-    } else {
-      Json error = {{"error", "Incorrect parameters provided"}};
+    try {
+      if(is_application(request)) {
+        LoanApplication application{LoanApplication::new_application()};
+        application.amount = amount_from(request);
+        application.contact = contact_from(request);
+        auto const ticket = LoanRepository::store(application);
+        response.response = Json{ticket}.dump();
+      } else if(is_status_request(request) && id_specified(request)) {
+        response.response = fetch_loan_info(request.parameters.at(TICKET_ID));
+      } else if(is_approval(request) && id_specified(request)) {
+        response.response = approve_loan(request.parameters.at(TICKET_ID));
+      } else {
+        Json error = {{"error", "Incorrect parameters provided"}};
+        response.response = error.dump();
+        response.status_code = 400;
+      }
+    } catch(std::exception const & e) {
+      Json error = {{ "error", "Uh oh! Problem occured: " + std::string{e.what()} }};
       response.response = error.dump();
-      response.status_code = 400;
+      response.status_code = 500;
     }
 
     return response;
