@@ -9,7 +9,7 @@ namespace MikadoMethod.LoanServer {
 
     public static void Main() {
       var listener = new HttpListener();
-      listener.Prefixes.Add("http://*:8080/");
+      listener.Prefixes.Add("http://localhost:8080/");
       listener.Start();
       while(listener.IsListening) {
         var result = listener.BeginGetContext(ListenerCallback, listener);
