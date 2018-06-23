@@ -11,3 +11,30 @@ The [code](https://github.com/mikadomethod/book-chapter-5-code) is from chapter 
 book.
 The code is translated to C# and C++.
 
+
+# Web service API
+
+```
+http://localhost:8080/?action=apply&amount=500000&contact=johanna.muster@bbv.ch
+
+  [{ "id" : 1 }]
+
+
+http://localhost:8080/?action=fetch&ticketId=1
+
+  [{
+    "amount" : 500000, "application_no" : 1,  "approved" : false,
+    "contact":"johanna.muster@bbv.ch"
+  }]
+
+http://localhost:8080/?action=approve&ticketId=1
+
+  [{ "id" : 1 }]
+
+http://localhost:8080/?action=fetch&ticketId=1
+
+  [{
+    "amount" : 500000, "application_no" : 1, "approved" : true,
+    "contact" : "johanna.muster@bbv.ch"
+  }]
+```
