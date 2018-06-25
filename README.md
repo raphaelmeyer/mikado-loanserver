@@ -12,7 +12,7 @@ book.
 The code is translated to C# and C++.
 
 
-# Web service API
+## Web Service API
 
 ```
 http://localhost:8080/?action=apply&amount=500000&contact=johanna.muster@bbv.ch
