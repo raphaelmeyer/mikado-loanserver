@@ -43,3 +43,9 @@ http://localhost:8080/?action=fetch&ticketId=1
     "contact" : "johanna.muster@bbv.ch"
   }]
 ```
+
+## Exercises
+
+1. Add some tests for the approval process.
+2. Move control over ID generation (getNextID) to LoanRepository.
+3. Split the loan server into two separated servers: one to handle for applications, and the other to handle approvals.
