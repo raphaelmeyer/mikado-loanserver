@@ -19,7 +19,9 @@ http://localhost:8080/?action=apply&amount=500000&contact=johanna.muster@bbv.ch
 
   [{ "id" : 1 }]
 
+```
 
+```
 http://localhost:8080/?action=fetch&ticketId=1
 
   [{
@@ -27,10 +29,16 @@ http://localhost:8080/?action=fetch&ticketId=1
     "contact":"johanna.muster@bbv.ch"
   }]
 
+```
+
+```
 http://localhost:8080/?action=approve&ticketId=1
 
   [{ "id" : 1 }]
 
+```
+
+```
 http://localhost:8080/?action=fetch&ticketId=1
 
   [{
